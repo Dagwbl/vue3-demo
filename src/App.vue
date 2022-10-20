@@ -25,18 +25,18 @@
         <el-button link type="primary" size="small" @click="handleRowDelete(scope.row)" style="color: #F56C6C"
         >Delete</el-button
         >
-        <el-button link type="primary" size="small">Edit</el-button>
+        <el-button link type="primary" size="small" @click="handleEdit(scope.row)">Edit</el-button>
       </template>
     </el-table-column>
   </el-table>
 
   <el-dialog v-model="dialogFormVisible" :title="dialogType === 'add' ? 'Insert' : 'Edit'">
-    <el-form :model="insertForm">
+    <el-form :model="dialogForm">
       <el-form-item label="Name" :label-width="80">
-        <el-input v-model="insertForm.name" autocomplete="off" />
+        <el-input v-model="dialogForm.name" autocomplete="off" />
       </el-form-item>
       <el-form-item label="Email" :label-width="80">
-        <el-input v-model="insertForm.email" autocomplete="off" />
+        <el-input v-model="dialogForm.email" autocomplete="off" />
       </el-form-item>
     </el-form>
     <template #footer>
@@ -97,7 +97,7 @@ tableData.value = [
 ]
 const multipleSelection = ref([])
 const dialogFormVisible = ref(false)
-const insertForm = ref({
+const dialogForm = ref({
   name:"zjp",
   email:"dagwbl@qq.com"
 })
@@ -121,7 +121,7 @@ function handleDelMulti(){
   })
 
 }
-
+//多选
 function handleSelectionChange (val) {
   multipleSelection.value = val;
   // console.log(multipleSelection.value)
@@ -136,18 +136,37 @@ function handleSelectionChange (val) {
 //插入
 function handleInsert(){
   dialogFormVisible.value = true;
-  insertForm.value = {};
+  dialogForm.value = {};
 
 }
-// 新增
+// 确认
 function dialogConfirm(){
-  console.log(insertForm.value);
-  console.log(tableData.value);
-  //拿到数据添加到tableData中
-  tableData.value.push(insertForm.value);
-  dialogFormVisible.value = false;
-}
+  // 判断是新增还是编辑
+  if (dialogType.value=='add'){
+    console.log(dialogForm.value);
+    console.log(tableData.value);
+    //拿到数据添加到tableData中
+    tableData.value.push(dialogForm.value);
+    dialogFormVisible.value = false;
+  }
+  else {
+    // 获取当前索引
+    let index = tableData.value.findIndex(item=>item.id === dialogForm.value.id)
+    console.log(index);
+    tableData.value[index]=dialogForm.value;
+    dialogFormVisible.value = false;
+    // 替换当前索引位置
+  }
 
+}
+// 编辑
+function handleEdit(row){
+  dialogFormVisible.value=true;
+  dialogType.value = 'edit';
+  console.log(row);
+  dialogForm.value = {...row}
+  console.log(dialogForm.value);
+}
 </script>
 
 
