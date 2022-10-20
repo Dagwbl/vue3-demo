@@ -4,7 +4,10 @@
   <h2 class="title">Simple CRUD Demo</h2>
   <div class="query-box">
     <el-input v-model="queryInput" placeholder="Please input" />
-    <el-button type="primary" @click="handleInsert">Insert</el-button>
+    <div class="btn-list">
+      <el-button type="primary" @click="handleInsert">Insert</el-button>
+      <el-button type="danger" @click="handleDelMulti" v-if="multipleSelection.length>0">删除多选</el-button>
+    </div>
   </div>
   <el-table     ref="multipleTableRef"
                 :data="tableData"
@@ -61,7 +64,7 @@ const tableData = ref([])
 tableData.value = [
   {
     id:"1",
-    name: 'Tom',
+    name: 'Tom1',
     email:"dabwl@qq.com",
     phone:"213423451123",
     state: 'California',
@@ -69,7 +72,7 @@ tableData.value = [
   },
   {
     id:"2",
-    name: 'Tom',
+    name: 'Tom2',
     email:"dabwl@qq.com",
     phone:"213423451123",
     state: 'California',
@@ -77,7 +80,7 @@ tableData.value = [
   },
   {
     id:"3",
-    name: 'Tom',
+    name: 'Tom3',
     email:"dabwl@qq.com",
     phone:"213423451123",
     state: 'California',
@@ -85,7 +88,7 @@ tableData.value = [
   },
   {
     id:"4",
-    name: 'Tom',
+    name: 'Tom4',
     email:"dabwl@qq.com",
     phone:"213423451123",
     state: 'California',
@@ -100,28 +103,43 @@ const insertForm = ref({
 })
 const dialogType = ref('add')
 // 方法
-function handleRowDelete(row){
+// 删除
+function handleRowDelete(id){
 // alert("clicked.")
-  console.log(row.id);
+  console.log(id);
   //通过id获取到对应索引
-  let index = tableData.value.findIndex(item=>item.id===row.id);
+  let index = tableData.value.findIndex(item=>item.id===id);
   tableData.value.splice(index,1);
   //
   console.log(index);
+}
+// 删除多选
+function handleDelMulti(){
+  console.log(multipleSelection.value);
+  multipleSelection.value.forEach(id=>{
+    handleRowDelete(id)
+  })
+
 }
 
 function handleSelectionChange (val) {
   multipleSelection.value = val;
   // console.log(multipleSelection.value)
   console.log(val);
+  multipleSelection.value = []
+  val.forEach(item=>{
+    multipleSelection.value.push(item.id)
+  })
+  console.log(multipleSelection.value);
 }
 
+//插入
 function handleInsert(){
   dialogFormVisible.value = true;
   insertForm.value = {};
 
 }
-
+// 新增
 function dialogConfirm(){
   console.log(insertForm.value);
   console.log(tableData.value);
