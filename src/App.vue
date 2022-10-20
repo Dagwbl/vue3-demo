@@ -3,7 +3,7 @@
 <!--  Title-->
   <h2 class="title">Simple CRUD Demo</h2>
   <div class="query-box">
-    <el-input v-model="queryInput" placeholder="Please input" />
+    <el-input v-model="queryInput" placeholder="Please input" @input="handleQueryName"/>
     <div class="btn-list">
       <el-button type="primary" @click="handleInsert">Insert</el-button>
       <el-button type="danger" @click="handleDelMulti" v-if="multipleSelection.length>0">删除多选</el-button>
@@ -60,7 +60,17 @@
 import {ref} from "vue";
 // 数据
 const queryInput = ref("");
-const tableData = ref([])
+let tableData = ref( [])
+// const tableDataCopy = Object.assign(tableData) //此为浅拷贝，并不可靠，为普通类型时可视作深拷贝
+const tableDataCopy = ref([])
+const multipleSelection = ref([])
+const dialogFormVisible = ref(false)
+const dialogForm = ref({
+  name:"zjp",
+  email:"dagwbl@qq.com"
+})
+const dialogType = ref('add')
+
 tableData.value = [
   {
     id:"1",
@@ -95,14 +105,55 @@ tableData.value = [
     address: 'No. 189, Grove St, Los Angeles',
   }
 ]
-const multipleSelection = ref([])
-const dialogFormVisible = ref(false)
-const dialogForm = ref({
-  name:"zjp",
-  email:"dagwbl@qq.com"
-})
-const dialogType = ref('add')
+tableDataCopy.value = [
+  {
+    id:"1",
+    name: 'Tom1',
+    email:"dabwl@qq.com",
+    phone:"213423451123",
+    state: 'California',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    id:"2",
+    name: 'Tom2',
+    email:"dabwl@qq.com",
+    phone:"213423451123",
+    state: 'California',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    id:"3",
+    name: 'Tom3',
+    email:"dabwl@qq.com",
+    phone:"213423451123",
+    state: 'California',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    id:"4",
+    name: 'Tom4',
+    email:"dabwl@qq.com",
+    phone:"213423451123",
+    state: 'California',
+    address: 'No. 189, Grove St, Los Angeles',
+  }
+]
 // 方法
+// 搜索
+function handleQueryName(val){
+  console.log(val);
+  if (val.length>0){
+    tableData.value = tableDataCopy.value.filter(item=>item.name.toLowerCase().match(val));
+  }else{
+    console.log(tableDataCopy.value);
+    tableData.value = tableDataCopy.value;
+    console.log(tableDataCopy.value);
+  }
+
+}
+
+// handleQueryName
 // 删除
 function handleRowDelete(id){
 // alert("clicked.")
