@@ -1,12 +1,17 @@
 <template>
 <div class="table-box">
 <!--  Title-->
-  <h2>Simple CRUD Demo</h2>
+  <h2 class="title">Simple CRUD Demo</h2>
   <div class="query-box">
     <el-input v-model="queryInput" placeholder="Please input" />
     <el-button type="primary">Insert</el-button>
   </div>
-  <el-table :data="tableData" style="width: 100%">
+  <el-table     ref="multipleTableRef"
+                :data="tableData"
+                style="width: 100%"
+                @selection-change="handleSelectionChange"
+                border>
+    <el-table-column type="selection" width="55" label="Select"/>
     <el-table-column fixed prop="date" label="Date" width="150" />
     <el-table-column prop="name" label="Name" width="120" />
     <el-table-column prop="state" label="State" width="120" />
@@ -72,10 +77,19 @@ tableData.value = [
     tag: 'Office',
   },
 ]
+
+const multipleSelection = ref([])
 // 方法
 function rowClick(){
 alert("clicked.")
 }
+
+function handleSelectionChange (val) {
+  multipleSelection.value = val;
+  // console.log(multipleSelection.value)
+  console.log(val);
+}
+
 
 </script>
 
@@ -84,8 +98,19 @@ alert("clicked.")
 .table-box {
   width: 800px;
   position: absolute;
+  /*margin: auto;*/
   top: 5%;
   left: 10%;
-  transform: translate(-5%,5%);
+}
+.title {
+  text-align: center;
+}
+.query-box{
+  display: flex;
+  justify-content: space-between;
+margin-bottom: 20px;
+}
+.el-input{
+  width: 200px;
 }
 </style>
