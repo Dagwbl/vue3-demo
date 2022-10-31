@@ -9,5 +9,13 @@ export default defineConfig({
     // reactivityTransform:true
   }),
   ],
+  server:{
+    // port: 8000,
+    // proxy: {
+    //   '/projects':{
+    //     target: "http://127.0.0.1:80/projects/"
+    //   }
+    // }
+  },
   base: './' // 打包相对路径
 })

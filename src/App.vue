@@ -15,10 +15,10 @@
                 @selection-change="handleSelectionChange"
                 border>
     <el-table-column fixed="left" type="selection" width="55" label="Select"/>
-    <el-table-column prop="name" label="Name" width="120" />
-    <el-table-column prop="email" label="Email" width="120" />
-    <el-table-column prop="phone" label="Phone" width="120" />
-    <el-table-column prop="state" label="State" width="120" />
+    <el-table-column prop="id" label="ID" width="120" />
+    <el-table-column prop="coords" label="Coords" width="120" />
+    <el-table-column prop="optocouple" label="Optocouple" width="120" />
+    <el-table-column prop="response_level" label="Response Level" width="120" />
     <el-table-column prop="address" label="Address" width="200" />
     <el-table-column fixed="right" label="Operations" width="120">
       <template #default="scope">
@@ -58,6 +58,8 @@
 // import HelloWorld from './components/HelloWorld.vue'
 //导入资源
 import {ref} from "vue";
+import request from "./utils/request.js";
+
 // 数据
 const queryInput = ref("");
 let tableData = ref( [])
@@ -70,7 +72,6 @@ const dialogForm = ref({
   email:"dagwbl@qq.com"
 })
 const dialogType = ref('add')
-
 tableData.value = [
   {
     id:"1",
@@ -139,7 +140,26 @@ tableDataCopy.value = [
     address: 'No. 189, Grove St, Los Angeles',
   }
 ]
+
+
 // 方法
+
+
+
+
+//请求测试
+async function getTableData(cur=1){
+  let res = await request.get('/projects/learn/ESP/api/node.php?&action=query',{
+    pageSize: 10,
+    p: cur
+  });
+  console.log(res)
+  tableData.value = res.data;
+  // return res.v
+
+}
+getTableData()
+
 // 搜索
 function handleQueryName(val){
   console.log(val);
