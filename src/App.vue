@@ -7,29 +7,25 @@
     </div>
   </header>
 
-  <el-row>
-    <div class="aside">
-
-    </div>
-    <el-col :span="4" style="background-color: #91282e;height: 93vh">
+  <el-row type="flex">
+    <el-col :span="4" style="height: inherit">
       <div class="navi" style="margin-top: 150px;">
         <p style="font-size: 40px;display: flex;justify-content: center">导航</p>
         <router-link to="/data">Data 表</router-link>
         <router-link to="/sensor">Sensor 表</router-link>
         <router-link to="/node">Node 表</router-link>
         <router-link to="/log">Log 表</router-link>
-        <router-link to="/about">About</router-link>
+        <router-link to="/export">数据导出</router-link>
+        <router-link to="/about">关于</router-link>
 
-        <el-footer>
+        <el-footer >
           <div>College of Mining, GZU</div>
           <div>Dagwbl 2022</div>
         </el-footer>
+
       </div>
-
-
     </el-col>
     <el-col :span="20" style="height: 100%;background-color: #ededed">
-
       <router-view></router-view>
     </el-col>
   </el-row>
@@ -46,10 +42,16 @@
 
 .el-row:last-child {
   margin-bottom: 0;
+  /*background: #91282e;*/
 }
 
 .el-col {
   border-radius: 4px;
+  width: available;
+}
+
+.el-col-4 {
+  background: #91282e;
 }
 
 .grid-content {
@@ -87,9 +89,10 @@ html, body {
   word-wrap: normal;
   bottom: 56px;
   text-align: center;
-  width: 17%;
+  width: inherit;
   flex-wrap: wrap;
   position: absolute;
+  background: #333333;
 }
 
 .el-header {

@@ -11,6 +11,9 @@ import node from './components/node.vue'
 import sensor from "./components/sensor.vue";
 import data from "./components/data.vue";
 import log from "./components/log.vue";
+import dataExport from "./components/export.vue";
+import about from "./components/about.vue";
+
 import {useRouter} from 'vue-router'
 
 
@@ -21,7 +24,10 @@ const routes = [
     {path:'/node',component: node},
     {path:'/sensor',component: sensor},
     {path:'/data',component: data},
-    {path:'/log',component: log}
+    {path:'/log',component: log},
+    {path:'/export',component: dataExport},
+    {path:'/about',component: about},
+
 ]
 
 // const router = useRouter()
