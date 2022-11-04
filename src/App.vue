@@ -3,7 +3,7 @@
 
     <div
         style="background: #f2f2ea;width: 100%;height: 7vh;display: flex;justify-content: center;align-items: center">
-      <img alt="贵州大学矿业学院" src="./assets/banner.jpg"
+      <img alt="贵州大学矿业学院" src="./assets/banner-cn.png"
            style="width: 1080px;height: auto;display: inline-block;">
     </div>
   </header>
@@ -12,10 +12,10 @@
     <el-col :span="4" style="height: inherit">
       <div class="navi" style="margin-top: 150px;">
         <p style="font-size: 40px;display: flex;justify-content: center">导航</p>
-        <router-link to="/data">Data 表</router-link>
-        <router-link to="/sensor">Sensor 表</router-link>
-        <router-link to="/node">Node 表</router-link>
-        <router-link to="/log">Log 表</router-link>
+        <router-link to="/data">基础数据</router-link>
+        <router-link to="/sensor">传感器表</router-link>
+        <router-link to="/node">物端列表</router-link>
+        <router-link to="/log">系统日志</router-link>
         <router-link to="/export">数据导出</router-link>
         <router-link to="/about">关于</router-link>
 
@@ -94,6 +94,7 @@ html, body {
   text-align: center;
   width: inherit;
   flex-wrap: wrap;
+  margin-top: 230px;
 
   /*position: absolute;*/
   /*background: #333333;*/

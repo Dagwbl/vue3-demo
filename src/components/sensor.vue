@@ -22,7 +22,7 @@
       <el-table-column fixed="left" type="selection" label="Select"/>
 
       <template v-for="(item,index) in tableHead">
-        <el-table-column :prop="item.prop" :label="item.label" :key="index" v-if="item.prop != 'id'"></el-table-column>
+        <el-table-column :prop="item.prop" :label="item.label" :key="index" v-if="item.prop != '!id'"></el-table-column>
       </template>
 
       <el-table-column fixed="right" label="Operations">
@@ -160,7 +160,7 @@ function handleChangePage(val) {
 
 //请求测试,获取表格数据
 async function getTableData(cur = 1) {
-  let res = await request.get('/projects/learn/ESP/api/sensor.php?&action=query', {
+  let res = await request.get('/api/sensor.php?&action=query', {
     pageSize: pageSize.value,
     p: cur
   });
@@ -186,7 +186,7 @@ async function handleQueryName(val) {
   //   console.log(tableDataCopy.value);
   // }
   if (val.length != 0) {
-    let res = await request.get("/projects/learn/ESP/api/sensor.php?&action=query", {coords: val})
+    let res = await request.get("/api/sensor.php?&action=query", {coords: val})
     tableData.value = res.data.data
   } else {
     await getTableData(curPage.value)
@@ -207,7 +207,7 @@ async function handleRowDelete(raw) {
   // //
   // console.log(index);
   // console.log(raw);
-  let res = await request.delete("/projects/learn/ESP/api/sensor.php?action=delete", {"model": raw['model']})
+  let res = await request.delete("/api/sensor.php?action=delete", {"model": raw['model']})
   console.log(res)
   notify('Success', '删除成功', 'success')
   await getTableData(curPage.value)
@@ -260,7 +260,7 @@ async function dialogConfirm() {
     // dialogFormVisible.value = false;
 
     //服务端接受列表（数组）类型，不能够传递单个对象
-    let res = await request.post("/projects/learn/ESP/api/sensor.php?action=insert", [dialogForm.value])
+    let res = await request.post("/api/sensor.php?action=insert", [dialogForm.value])
     console.log(res);
     debugView.value = res.data
     //刷新数据
@@ -271,7 +271,7 @@ async function dialogConfirm() {
     // console.log(index);
     // tableData.value[index]=dialogForm.value;
     // dialogFormVisible.value = false;
-    let res = await request.post("/projects/learn/ESP/api/sensor.php?action=update", {...dialogForm.value})
+    let res = await request.post("/api/sensor.php?action=update", {...dialogForm.value})
     console.log(res);
     //刷新数据
     await getTableData(curPage.value)

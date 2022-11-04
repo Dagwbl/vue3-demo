@@ -169,7 +169,7 @@ function handleChangePage(val){
 
 //请求测试,获取表格数据
 async function getTableData(cur=1){
-  let res = await request.get('/projects/learn/ESP/api/node.php?&action=query',{
+  let res = await request.get('/api/node.php?&action=query',{
     pageSize: pageSize.value,
     p: cur
   });
@@ -194,7 +194,7 @@ async function handleQueryName(val){
   //   console.log(tableDataCopy.value);
   // }
   if (val.length!=0){
-    let res = await request.get("/projects/learn/ESP/api/node.php?&action=query",{coords:val})
+    let res = await request.get("/api/node.php?&action=query",{coords:val})
     tableData.value = res.data.data
   }else {
     await getTableData(curPage.value)
@@ -215,7 +215,7 @@ async function handleRowDelete(raw){
   // //
   // console.log(index);
   // console.log(raw);
-  let res = await request.delete("/projects/learn/ESP/api/node.php?action=delete",{"coords":raw['coords']})
+  let res = await request.delete("/api/node.php?action=delete",{"coords":raw['coords']})
   console.log(res)
   notify('Success','删除成功','success')
   await getTableData(curPage.value)
@@ -266,7 +266,7 @@ async function dialogConfirm(){
     // tableData.value.push(dialogForm.value);
     // dialogFormVisible.value = false;
 
-    let res = await request.post("/projects/learn/ESP/api/node.php?action=insert",{...dialogForm.value})
+    let res = await request.post("/api/node.php?action=insert",{...dialogForm.value})
     console.log(res);
     //刷新数据
     await getTableData(curPage.value)
@@ -277,7 +277,7 @@ async function dialogConfirm(){
     // console.log(index);
     // tableData.value[index]=dialogForm.value;
     // dialogFormVisible.value = false;
-    let res = await request.post("/projects/learn/ESP/api/node.php?action=update",{...dialogForm.value})
+    let res = await request.post("/api/node.php?action=update",{...dialogForm.value})
     console.log(res);
     //刷新数据
     await getTableData(curPage.value)

@@ -15,7 +15,8 @@ import axios from 'axios'
 import {ElMessage} from "element-plus";
 // 全局配置
 const service = axios.create({
-    baseURL:"http://localhost",
+    // baseURL:"http://192.168.1.110/projects/learn/ESP",
+    baseURL:"http://47.108.84.185/Server",
     // baseURL:"projects/",
     timeout:8000
 })

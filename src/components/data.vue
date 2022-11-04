@@ -140,7 +140,7 @@ function handleChangePage(val) {
 
 //请求测试,获取表格数据
 async function getTableData(cur = 1) {
-  let res = await request.get('/projects/learn/ESP/api/data.php?&action=query', {
+  let res = await request.get('/api/data.php?&action=query', {
     pageSize: pageSize.value,
     p: cur,
     model:model.value
@@ -162,7 +162,7 @@ async function handleQueryName(val) {
 
   model.value = val
   if (val.length != 0) {
-    let res = await request.get("/projects/learn/ESP/api/data.php?&action=query", {model: val})
+    let res = await request.get("/api/data.php?&action=query", {model: val})
     // debugView.value = res.data
     tableData.value = res.data.data
     total.value = parseInt(res.data.total)
@@ -181,7 +181,7 @@ async function handleQueryName(val) {
 // 删除
 async function handleRowDelete(raw) {
 
-  // let res = await request.delete("/projects/learn/ESP/api/data.php?action=delete", {"model": raw['model']})
+  // let res = await request.delete("/api/data.php?action=delete", {"model": raw['model']})
   // console.log(res)
   notify('Warning', '为确保数据安全性,不允许直接删除数据', 'warning')
   await getTableData(curPage.value)
@@ -230,14 +230,14 @@ async function dialogConfirm() {
   if (dialogType.value == 'add') {
     notify('Warning', '为确保数据真实性,不允许直接添加数据', 'warning')
     // //服务端接受列表（数组）类型，不能够传递单个对象
-    // let res = await request.post("/projects/learn/ESP/api/data.php?action=insert", [dialogForm.value])
+    // let res = await request.post("/api/data.php?action=insert", [dialogForm.value])
     // console.log(res);
     // debugView.value = res.data
     // //刷新数据
     // await getTableData(curPage.value)
   } else {
     notify('Warning', '为确保数据真实性,不允许直接修改数据', 'warning')
-    // let res = await request.post("/projects/learn/ESP/api/data.php?action=update", {...dialogForm.value})
+    // let res = await request.post("/api/data.php?action=update", {...dialogForm.value})
     // console.log(res);
     //刷新数据
     // await getTableData(curPage.value)
