@@ -11,7 +11,7 @@
     </div>
     <el-table     ref="multipleTableRef"
                   :data="tableData"
-                  :header-cell-style="{'text-align':'center'}"
+                  :header-cell-style="{'text-align':'center', 'background':'#404040','color':'white'}"
                   :cell-style="{'text-align':'center'}"
                   style="width: 100%;"
                   @selection-change="handleSelectionChange"

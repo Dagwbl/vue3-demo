@@ -1,5 +1,6 @@
 <template>
   <header style="display: block">
+
     <div
         style="background: #f2f2ea;width: 100%;height: 7vh;display: flex;justify-content: center;align-items: center">
       <img alt="贵州大学矿业学院" src="./assets/banner.jpg"
@@ -32,6 +33,8 @@
 </template>
 
 <script setup>
+import {ref} from "vue";
+
 
 
 </script>
@@ -91,8 +94,9 @@ html, body {
   text-align: center;
   width: inherit;
   flex-wrap: wrap;
-  position: absolute;
-  background: #333333;
+
+  /*position: absolute;*/
+  /*background: #333333;*/
 }
 
 .el-header {

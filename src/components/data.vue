@@ -1,4 +1,7 @@
 <template>
+  <div class="debug-view">
+    {{debugView}}
+  </div>
   <div class="table-box">
     <!--  Title-->
     <h1 class="title">Data</h1>
@@ -9,22 +12,24 @@
         <el-button type="danger" @click="handleDelMulti" v-if="multipleSelection.length>0">删除多选</el-button>
       </div>
     </div>
-    <el-table     ref="multipleTableRef"
-                  :data="tableData"
-                  :header-cell-style="{'text-align':'center'}"
-                  :cell-style="{'text-align':'center'}"
-                  style="width: 100%;"
-                  @selection-change="handleSelectionChange"
-                  border>
+    <el-table ref="multipleTableRef"
+              :data="tableData"
+              :header-cell-style="{'text-align':'center', 'background':'#404040','color':'white'}"
+              :cell-style="{'text-align':'center'}"
+              style="width: 100%;"
+              @selection-change="handleSelectionChange"
+              border>
       <el-table-column fixed="left" type="selection" label="Select"/>
-      <el-table-column prop="id" label="ID" width="120" />
-      <el-table-column prop="coords" label="Coords" />
-      <el-table-column prop="optocouple" label="Optocouple"  />
-      <el-table-column prop="response_level" label="Response Level" />
-      <el-table-column fixed="right" label="Operations" >
+
+      <template v-for="(item,index) in tableHead">
+        <el-table-column :prop="item.prop" :label="item.label" :key="index" v-if="item.prop != '!id'"></el-table-column>
+      </template>
+
+      <el-table-column fixed="right" label="Operations">
         <template #default="scope">
           <el-button link type="primary" size="small" @click="handleRowDelete(scope.row)" style="color: #F56C6C"
-          >Delete</el-button
+          >Delete
+          </el-button
           >
           <el-button link type="primary" size="small" @click="handleEdit(scope.row)">Edit</el-button>
         </template>
@@ -38,20 +43,34 @@
         class="mt-4"
         v-model:current-page="curPage"
         v-model:page-size="pageSize"
-        @current-change = "handleChangePage"
+        @current-change="handleChangePage"
         style="display: flex;justify-content: center;margin-top: 10px"
     />
     <el-dialog v-model="dialogFormVisible" :title="dialogType === 'add' ? 'Insert' : 'Edit'">
       <el-form :model="dialogForm">
-        <el-form-item label="Coords" :label-width="120">
-          <el-input v-model="dialogForm.coords" autocomplete="off" />
+        <el-form-item label="id" :label-width="120">
+          <el-input v-model="dialogForm.id" autocomplete="off"/>
         </el-form-item>
-        <el-form-item label="optocouple" :label-width="120">
-          <el-input v-model="dialogForm.optocouple" autocomplete="off" />
+        <el-form-item label="value" :label-width="120">
+          <el-input v-model="dialogForm.value" autocomplete="off"/>
         </el-form-item>
-        <el-form-item label="Response Level" :label-width="120">
-          <el-input v-model="dialogForm.response_level" autocomplete="off" />
+        <el-form-item label="unit" :label-width="120">
+          <el-input v-model="dialogForm.unit" autocomplete="off"/>
         </el-form-item>
+        <el-form-item label="sensor" :label-width="120">
+          <el-input v-model="dialogForm.sensor" autocomplete="off"/>
+        </el-form-item>
+        <el-form-item label="time" :label-width="120">
+          <el-input v-model="dialogForm.time" autocomplete="off"/>
+        </el-form-item>
+        <el-form-item label="raw" :label-width="120">
+          <el-input v-model="dialogForm.raw" autocomplete="off"/>
+        </el-form-item>
+        <el-form-item label="verify" :label-width="120">
+          <el-input v-model="dialogForm.verify" autocomplete="off"/>
+        </el-form-item>
+
+
       </el-form>
       <template #footer>
       <span class="dialog-footer">
@@ -77,103 +96,56 @@ import {ElNotification} from "element-plus";
 
 // 数据
 const queryInput = ref("");
-let tableData = ref( [])
+let tableData = ref([])
 // const tableDataCopy = Object.assign(tableData) //此为浅拷贝，并不可靠，为普通类型时可视作深拷贝
 const tableDataCopy = ref([])
 const multipleSelection = ref([])
 const dialogFormVisible = ref(false)
 const dialogForm = ref({
-  name:"zjp",
-  email:"dagwbl@qq.com"
+  'id': null,
+  'value': null,
+  'unit': null,
+  'sensor': null,
+  'time': null,
+  'raw': null,
+  'verify': null,
+
 })
+const tableHead = ref([
+  {prop: 'id', label: 'ID'},
+  {prop: 'value', label: 'value'},
+  {prop: 'unit', label: 'unit'},
+  {prop: 'sensor', label: 'sensor'},
+  {prop: 'time', label: 'time'},
+  {prop: 'raw', label: 'raw'},
+  {prop: 'verify', label: 'verify'},
+
+])
 const dialogType = ref('add')
-tableData.value = [
-  {
-    id:"1",
-    name: 'Tom1',
-    email:"dabwl@qq.com",
-    phone:"213423451123",
-    state: 'California',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    id:"2",
-    name: 'Tom2',
-    email:"dabwl@qq.com",
-    phone:"213423451123",
-    state: 'California',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    id:"3",
-    name: 'Tom3',
-    email:"dabwl@qq.com",
-    phone:"213423451123",
-    state: 'California',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    id:"4",
-    name: 'Tom4',
-    email:"dabwl@qq.com",
-    phone:"213423451123",
-    state: 'California',
-    address: 'No. 189, Grove St, Los Angeles',
-  }
-]
-tableDataCopy.value = [
-  {
-    id:"1",
-    name: 'Tom1',
-    email:"dabwl@qq.com",
-    phone:"213423451123",
-    state: 'California',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    id:"2",
-    name: 'Tom2',
-    email:"dabwl@qq.com",
-    phone:"213423451123",
-    state: 'California',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    id:"3",
-    name: 'Tom3',
-    email:"dabwl@qq.com",
-    phone:"213423451123",
-    state: 'California',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    id:"4",
-    name: 'Tom4',
-    email:"dabwl@qq.com",
-    phone:"213423451123",
-    state: 'California',
-    address: 'No. 189, Grove St, Los Angeles',
-  }
-]
+
+const debugView = ref('')
+
 let curPage = ref(1)
 let total = ref(10)
-let pageSize = ref(15)
+let pageSize = ref(20)
+let model = ref('')
 // 方法
 
 // 分页
 
-function handleChangePage(val){
+function handleChangePage(val) {
   getTableData(val)
 }
 
 
 //请求测试,获取表格数据
-async function getTableData(cur=1){
-  let res = await request.get('/projects/learn/ESP/api/node.php?&action=query',{
+async function getTableData(cur = 1) {
+  let res = await request.get('/projects/learn/ESP/api/data.php?&action=query', {
     pageSize: pageSize.value,
-    p: cur
+    p: cur,
+    model:model.value
   });
-  // console.log(res.data.data)
+  console.log(res)
   tableData.value = res.data.data
   total.value = parseInt(res.data.total)
   curPage.value = parseInt(res.data.pageNum)
@@ -181,22 +153,23 @@ async function getTableData(cur=1){
   // return 0
 
 }
+
 getTableData()
 
 // 搜索
-async function handleQueryName(val){
+async function handleQueryName(val) {
   console.log(val.length);
-  // if (val.length>0){
-  //   tableData.value = tableDataCopy.value.filter(item=>item.name.toLowerCase().match(val));
-  // }else{
-  //   console.log(tableDataCopy.value);
-  //   tableData.value = tableDataCopy.value;
-  //   console.log(tableDataCopy.value);
-  // }
-  if (val.length!=0){
-    let res = await request.get("/projects/learn/ESP/api/node.php?&action=query",{coords:val})
+
+  model.value = val
+  if (val.length != 0) {
+    let res = await request.get("/projects/learn/ESP/api/data.php?&action=query", {model: val})
+    // debugView.value = res.data
     tableData.value = res.data.data
-  }else {
+    total.value = parseInt(res.data.total)
+    curPage.value = res.data.pageNum
+    pageSize.value = res.data.pageSize
+
+  } else {
     await getTableData(curPage.value)
 
   }
@@ -206,103 +179,91 @@ async function handleQueryName(val){
 
 // handleQueryName
 // 删除
-async function handleRowDelete(raw){
+async function handleRowDelete(raw) {
 
-  // console.log(id);
-  // //通过id获取到对应索引
-  // let index = tableData.value.findIndex(item=>item.id===id);
-  // tableData.value.splice(index,1);
-  // //
-  // console.log(index);
-  // console.log(raw);
-  let res = await request.delete("/projects/learn/ESP/api/node.php?action=delete",{"coords":raw['coords']})
-  console.log(res)
-  notify('Success','删除成功','success')
+  // let res = await request.delete("/projects/learn/ESP/api/data.php?action=delete", {"model": raw['model']})
+  // console.log(res)
+  notify('Warning', '为确保数据安全性,不允许直接删除数据', 'warning')
   await getTableData(curPage.value)
 
 }
 
 //多选
-function handleSelectionChange (val) {
+function handleSelectionChange(val) {
   multipleSelection.value = val;
   // console.log(multipleSelection.value)
   console.log(val);
   multipleSelection.value = []
-  val.forEach(item=>{
+  val.forEach(item => {
     multipleSelection.value.push(item)
   })
   console.log(multipleSelection.value);
 }
 
 // 删除多选
-async function handleDelMulti(){
+async function handleDelMulti() {
   console.log(multipleSelection.value);
-  multipleSelection.value.forEach(item=>{
+  multipleSelection.value.forEach(item => {
     console.log(item);
     handleRowDelete(item)
   })
 
-  notify('Success','删除成功','success')
+  notify('Warning', '为确保数据安全性,不允许直接删除数据', 'warning')
   await getTableData(curPage.value)
 
 }
 
 
 //插入
-function handleInsert(){
-  dialogFormVisible.value = true;
-  dialogForm.value = {};
+function handleInsert() {
+  notify('Warning', '为确保数据真实性,不允许直接添加数据', 'warning')
+  // dialogFormVisible.value = true;
+  // dialogForm.value = {};
 
 }
+
 // 确认
-async function dialogConfirm(){
-  dialogFormVisible.value = false
-
+async function dialogConfirm() {
+  // dialogFormVisible.value = false
+  // console.log(dialogType.value);
   // 判断是新增还是编辑
-  if (dialogType.value=='add'){
-    // console.log(dialogForm.value);
-    // console.log(tableData.value);
-    // //拿到数据添加到tableData中
-    // tableData.value.push(dialogForm.value);
-    // dialogFormVisible.value = false;
-
-    let res = await request.post("/projects/learn/ESP/api/node.php?action=insert",{...dialogForm.value})
-    console.log(res);
+  if (dialogType.value == 'add') {
+    notify('Warning', '为确保数据真实性,不允许直接添加数据', 'warning')
+    // //服务端接受列表（数组）类型，不能够传递单个对象
+    // let res = await request.post("/projects/learn/ESP/api/data.php?action=insert", [dialogForm.value])
+    // console.log(res);
+    // debugView.value = res.data
+    // //刷新数据
+    // await getTableData(curPage.value)
+  } else {
+    notify('Warning', '为确保数据真实性,不允许直接修改数据', 'warning')
+    // let res = await request.post("/projects/learn/ESP/api/data.php?action=update", {...dialogForm.value})
+    // console.log(res);
     //刷新数据
-    await getTableData(curPage.value)
-  }
-  else {
-    // 获取当前索引
-    // let index = tableData.value.findIndex(item=>item.id === dialogForm.value.id)
-    // console.log(index);
-    // tableData.value[index]=dialogForm.value;
-    // dialogFormVisible.value = false;
-    let res = await request.post("/projects/learn/ESP/api/node.php?action=update",{...dialogForm.value})
-    console.log(res);
-    //刷新数据
-    await getTableData(curPage.value)
+    // await getTableData(curPage.value)
   }
 
 }
+
 // 编辑
-async function handleEdit(row){
-  dialogFormVisible.value=true;
-  dialogType.value = 'edit';
-  // console.log(row);
-  dialogForm.value = {...row}
-  // console.log(dialogForm.value);
+async function handleEdit(row) {
+  notify('Warning', '为确保数据真实性,不允许直接修改数据', 'warning')
+  // dialogFormVisible.value = true;
+  // dialogType.value = 'edit';
+  // // console.log(row);
+  // dialogForm.value = {...row}
+  // // console.log(dialogForm.value);
 
 }
 
-function notify(title,msg,type){
+function notify(title, msg, type) {
   //success, warning, info, error
   ElNotification({
     title: title,
-    message: msg ,
+    message: msg,
     type: type,
   })
 }
-
 
 
 </script>

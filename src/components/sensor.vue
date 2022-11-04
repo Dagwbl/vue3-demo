@@ -1,4 +1,7 @@
 <template>
+  <div class="debug-view">
+    {{debugView}}
+  </div>
   <div class="table-box">
     <!--  Title-->
     <h1 class="title">Sensor</h1>
@@ -11,7 +14,7 @@
     </div>
     <el-table ref="multipleTableRef"
               :data="tableData"
-              :header-cell-style="{'text-align':'center'}"
+              :header-cell-style="{'text-align':'center', 'background':'#404040','color':'white'}"
               :cell-style="{'text-align':'center'}"
               style="width: 100%;"
               @selection-change="handleSelectionChange"
@@ -141,6 +144,8 @@ tableDataCopy.value = [
     address: 'No. 189, Grove St, Los Angeles',
   }
 ]
+const debugView = ref('')
+
 let curPage = ref(1)
 let total = ref(10)
 let pageSize = ref(20)
@@ -202,7 +207,7 @@ async function handleRowDelete(raw) {
   // //
   // console.log(index);
   // console.log(raw);
-  let res = await request.delete("/projects/learn/ESP/api/sensor.php?action=delete", {"coords": raw['coords']})
+  let res = await request.delete("/projects/learn/ESP/api/sensor.php?action=delete", {"model": raw['model']})
   console.log(res)
   notify('Success', '删除成功', 'success')
   await getTableData(curPage.value)
@@ -245,7 +250,7 @@ function handleInsert() {
 // 确认
 async function dialogConfirm() {
   dialogFormVisible.value = false
-
+  console.log(dialogType.value);
   // 判断是新增还是编辑
   if (dialogType.value == 'add') {
     // console.log(dialogForm.value);
@@ -254,8 +259,10 @@ async function dialogConfirm() {
     // tableData.value.push(dialogForm.value);
     // dialogFormVisible.value = false;
 
-    let res = await request.post("/projects/learn/ESP/api/sensor.php?action=insert", {...dialogForm.value})
+    //服务端接受列表（数组）类型，不能够传递单个对象
+    let res = await request.post("/projects/learn/ESP/api/sensor.php?action=insert", [dialogForm.value])
     console.log(res);
+    debugView.value = res.data
     //刷新数据
     await getTableData(curPage.value)
   } else {
