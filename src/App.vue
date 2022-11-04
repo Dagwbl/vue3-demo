@@ -26,7 +26,7 @@
 
       </div>
     </el-col>
-    <el-col :span="20" style="height: 100%;background-color: #ededed">
+    <el-col :span="20" style="height: 100%;background-color: lightslategrey">
       <router-view></router-view>
     </el-col>
   </el-row>
@@ -49,16 +49,20 @@ import {ref} from "vue";
 }
 
 .el-col {
-  border-radius: 4px;
+  border-radius: 6px;
   width: available;
+  /*background: #91282e;*/
 }
 
 .el-col-4 {
   background: #91282e;
 }
+.el-col-20 {
+  background: #91282e;
+}
 
 .grid-content {
-  border-radius: 4px;
+  border-radius: 6px;
   /*min-height: 36px;*/
 }
 
@@ -72,10 +76,11 @@ a {
 }
 
 html, body {
+  min-width: 1080px;
   width: 100%;
   height: 100%;
   margin: 0 auto;
-  background: #ededed;
+  /*background: #91282e;*/
 }
 
 #app {

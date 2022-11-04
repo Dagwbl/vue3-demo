@@ -271,4 +271,5 @@ function notify(title, msg, type) {
 
 <style scoped>
 @import "../style.css";
+
 </style>
