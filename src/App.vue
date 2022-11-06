@@ -26,7 +26,7 @@
 
       </div>
     </el-col>
-    <el-col :span="20" style="height: 100%;background-color: lightslategrey">
+    <el-col :span="20" style="height: 100%;">
       <router-view></router-view>
     </el-col>
   </el-row>
@@ -34,7 +34,7 @@
 
 <script setup>
 import {ref} from "vue";
-
+import {VueJsExcel} from 'vue-js-excel'
 
 
 </script>
@@ -58,7 +58,7 @@ import {ref} from "vue";
   background: #91282e;
 }
 .el-col-20 {
-  background: #91282e;
+  /*background: #91282e;*/
 }
 
 .grid-content {

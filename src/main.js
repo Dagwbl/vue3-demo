@@ -5,7 +5,7 @@ import * as VueRouter from 'vue-router'
 
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
-
+// import {VueJsExcel} from 'vue-js-excel'
 
 import node from './components/node.vue'
 import sensor from "./components/sensor.vue";
@@ -38,7 +38,6 @@ const router = VueRouter.createRouter({
 })
 
 const app = createApp(App)
-
 app.use(ElementPlus).use(router)
 app.mount('#app')
 

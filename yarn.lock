@@ -547,6 +547,11 @@ vue-demi@*:
   resolved "https://registry.npmmirror.com/vue-demi/-/vue-demi-0.13.11.tgz#7d90369bdae8974d87b1973564ad390182410d99"
   integrity sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==
 
+vue-js-excel@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.npmmirror.com/vue-js-excel/-/vue-js-excel-1.0.3.tgz#3549bf985ce706d57748d6ac0c85a61812c5f587"
+  integrity sha512-LKf5Ef5uOkrGHDfCfld1y/+QY8M4l7ixr92zKuc+40kF95n6r2MzC8Rkf9OKTfM7fNdLMm4dWHoa9rRbrUkvyA==
+
 vue-router@^4.1.6:
   version "4.1.6"
   resolved "https://registry.npmmirror.com/vue-router/-/vue-router-4.1.6.tgz#b70303737e12b4814578d21d68d21618469375a1"
