@@ -3,7 +3,7 @@
     <!--  Title-->
     <h1 class="title">Node</h1>
     <div class="query-box">
-      <el-input v-model="queryInput" placeholder="Please input" @change="handleQueryName"/>
+      <el-input v-model="queryInput" placeholder="请输入 Coords 过滤" @change="handleQueryName"/>
       <div class="btn-list">
         <el-button type="primary" @click="handleInsert">Insert</el-button>
         <el-button type="danger" @click="handleDelMulti" v-if="multipleSelection.length>0">删除多选</el-button>

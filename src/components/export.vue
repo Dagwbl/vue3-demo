@@ -2,23 +2,20 @@
   <h1 style="text-align: center">数据导出</h1>
   <el-form :inline="true" :model="formInline" class="demo-form-inline" style="text-align: center">
     <el-form-item label="数据表">
-      <el-select v-model="formInline.table" placeholder="请选择" style="width: 100px">
+      <el-select v-model="formInline.table" placeholder="下拉选择" style="width: 100px">
         <el-option label="Data" value="data"/>
         <el-option label="Sensor" value="sensor"/>
         <el-option label="Node" value="node"/>
         <el-option label="Log" value="log"/>
       </el-select>
     </el-form-item>
-    <el-form-item label="条件" title="提示：导出条件格式为 列名='值'，例 sensor='testsensor-23'">
-      <el-input v-model="formInline.filter" placeholder="sensor='testsensor-2'"/>
-    </el-form-item>
-    <el-form-item label="时间">
+    <el-form-item label="采集日期">
       <div class="block">
         <span class="demonstration"></span>
         <el-date-picker
             v-model="formInline.date"
             type="date"
-            placeholder="选择日期"
+            placeholder="点击选择"
             :disabled-date="disabledDate"
             :shortcuts="shortcuts"
             style="width: 150px"
@@ -26,7 +23,9 @@
         />
       </div>
     </el-form-item>
-
+    <el-form-item label="过滤条件" title="提示：导出条件格式为 列名='值'，例 sensor='testsensor-23'">
+      <el-input v-model="formInline.filter" placeholder="sensor='testsensor-2'"/>
+    </el-form-item>
     <el-form-item>
       <el-button type="success" @click="onSubmit">预览</el-button>
     </el-form-item>
