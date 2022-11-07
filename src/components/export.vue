@@ -212,7 +212,7 @@ async function exportData() {
   let fileName = formInline['table'].toUpperCase() + "-" + formInline['filter'].toUpperCase() + "-" + formInline['date']
   console.log(fileName);
   try {
-    VueJsExcelExport(tableData.value, fileName, Object.keys(tableData.value[0]))
+    VueJsExcelExport(res.data.data, fileName, Object.keys(tableData.value[0]))
     notify("导出成功", "", 'success')
   } catch (e) {
     console.log(e);
