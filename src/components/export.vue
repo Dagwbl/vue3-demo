@@ -9,7 +9,7 @@
         <el-option label="Log" value="log"/>
       </el-select>
     </el-form-item>
-    <el-form-item label="条件">
+    <el-form-item label="条件" title="提示：导出条件格式为 列名='值'，例 sensor='testsensor-23'">
       <el-input v-model="formInline.filter" placeholder="sensor='testsensor-2'"/>
     </el-form-item>
     <el-form-item label="时间">
@@ -18,10 +18,11 @@
         <el-date-picker
             v-model="formInline.date"
             type="date"
-            placeholder="Pick a day"
+            placeholder="选择日期"
             :disabled-date="disabledDate"
             :shortcuts="shortcuts"
             style="width: 150px"
+            value-format="YYYY-MM-DD"
         />
       </div>
     </el-form-item>
@@ -68,6 +69,7 @@ import {ref} from "vue";
 import request from "../utils/request.js"
 // import {VueJsExcel} from 'vue-js-excel'
 import {reactive} from 'vue'
+import {ElNotification} from "element-plus";
 
 
 // 定义数据
@@ -103,11 +105,6 @@ const formInline = reactive({
 })
 
 const tableData = ref([])
-const exportForm = ref({
-  "table": "data",
-  "filter": "sensor='testsensor-2'",
-  "time": '2022-11-3'
-})
 
 const tableHead = ref([])
 
@@ -135,9 +132,16 @@ async function PreviewData(cur = 1) {
     pageSize: pageSize.value,
     p: cur
   })
+  console.log(formInline)
   console.log(res);
   tableData.value = res.data.data
-  setTableHead(res.data.data[0])
+  try {
+    setTableHead(res.data.data[0])
+    notify("查询成功", "可点击导出按钮导出数据", 'success')
+  } catch (e) {
+    notify("未查询到数据", "请检查参数是否错误，或者无数据符合条件", 'warning')
+  }
+
   // console.log(res.data.data)
   tableData.value = res.data.data
   total.value = parseInt(res.data.total)
@@ -202,12 +206,29 @@ async function exportData() {
   let res = await request.get('/api/export.php?action=export', {
     ...formInline,
     pageSize: pageSize.value,
-    p: cur
+    p: 1
   })
   console.log(res);
-  console.table(tableData.value);
-  let fileName = exportForm.value['table']+"-"+exportForm.value['filter']+"-"+exportForm.value['date']
-  VueJsExcelExport(tableData.value, fileName, Object.keys(tableData.value[0]))
+  // console.table(tableData.value);
+  let fileName = formInline['table'].toUpperCase() + "-" + formInline['filter'].toUpperCase() + "-" + formInline['date']
+  console.log(fileName);
+  try {
+    VueJsExcelExport(tableData.value, fileName, Object.keys(tableData.value[0]))
+    notify("导出成功", "", 'success')
+  } catch (e) {
+    console.log(e);
+    notify("导出错误", "未正确设置导出条件，请先预览数据", 'error')
+  }
+
+}
+
+function notify(title, msg, type) {
+  //success, warning, info, error
+  ElNotification({
+    title: title,
+    message: msg,
+    type: type,
+  })
 }
 
 

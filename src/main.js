@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import {createApp} from 'vue'
 // import './style.css'
 import App from './App.vue'
 import * as VueRouter from 'vue-router'
@@ -13,20 +13,19 @@ import data from "./components/data.vue";
 import log from "./components/log.vue";
 import dataExport from "./components/export.vue";
 import about from "./components/about.vue";
-
 import {useRouter} from 'vue-router'
 
 
 // const Home = { template: '<div>Home</div>' }
 // 定义路由
 const routes = [
-    {path: '/',component: data},
-    {path:'/node',component: node},
-    {path:'/sensor',component: sensor},
-    {path:'/data',component: data},
-    {path:'/log',component: log},
-    {path:'/export',component: dataExport},
-    {path:'/about',component: about},
+    {path: '/', component: data},
+    {path: '/node', component: node},
+    {path: '/sensor', component: sensor},
+    {path: '/data', component: data},
+    {path: '/log', component: log},
+    {path: '/export', component: dataExport},
+    {path: '/about', component: about},
 
 ]
 
